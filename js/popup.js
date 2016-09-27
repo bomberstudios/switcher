@@ -7,20 +7,24 @@ window.onload = function() {
             tabId = tabs[0].id;
             if(uri) {
                 var origin = uri.protocol() + "://" + uri.hostname();
+                if (uri.port()) {
+                  origin += ":" + uri.port();
+                }
                 chrome.runtime.sendMessage({site:origin, popup:1}, function(response) {
                     var keys = Object.keys(response).sort();
                     var html = "<ul>";
                     keys.forEach(function(key) {
                         if (key != 'carry_params') {
                             if(response[key] == origin) {
-                                html += "<li><span>" + response[key] + "</span></li>";
+                                html += "<li><span>" + response[key] + uri.pathname() + "</span></li>";
                             }
                             else {
                                 var href = response[key];
-                                if(response['carry_params']) {
-                                    href = href + uri.search();
+                                if(response.carry_params) {
+                                    href = href + uri.pathname();
+                                    // href = href + uri.search();
                                 }
-                                html += "<li><a href='" + href + "'>" + response[key] + "</a></li>";
+                                html += "<li><a href='" + href + "'>" + href + "</a></li>";
                             }
                         }
                     });
@@ -31,7 +35,7 @@ window.onload = function() {
             }
         }
     });    
-}
+};
 
 
 window.onclick = function(event) {
@@ -43,6 +47,4 @@ window.onclick = function(event) {
             }
         }
     }
-}
-        // chrome.tabs.sendMessage(tabs[0].id, {method:'getOrigin'}, function(origin) {
-        // })
+};

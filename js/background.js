@@ -13,12 +13,12 @@ chrome.runtime.onMessage.addListener(
       // console.log(groups);
       // console.log(sites[request.site]);
       // console.log(groups[sites[request.site]]);
-      if(sites[request.site] != undefined) {
+      if(sites[request.site] !== undefined) {
           //console.log("gevonden");
           sendResponse(groups[sites[request.site]]);
       }
 
-      if(sites[request.site] != undefined && request.popup) {
+      if(sites[request.site] !== undefined && request.popup) {
           sendResponse(groups[sites[request.site]]);
       }
 });
@@ -47,10 +47,13 @@ function showSwitcher(tab) {
         var uri = URI(tab.url);
         if(uri) {
             var origin = uri.protocol() + "://" + uri.hostname();
+            if (uri.port()) {
+              origin += ":" + uri.port();
+            }
             // console.log(origin);
             // console.log(tabId);
             // console.log(sites[origin]);
-            if(sites[origin] != undefined) {
+            if(sites[origin] !== undefined) {
                 //console.log("showing");
                 chrome.pageAction.show(tab.id);
             }

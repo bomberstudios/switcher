@@ -26,19 +26,19 @@ function OptionCtrl($scope) {
         };
 
         $scope.groups.push(element);
-    }
+    };
 
     $scope.remove_group = function(index) {
         $scope.groups.splice(index,1);
-    }
+    };
 
     $scope.add_item = function(index) {
         $scope.groups[index].websites.push({'shortcut':'', 'url':''});
-    }
+    };
 
     $scope.remove_item = function(group_index, item_index) {
         $scope.groups[group_index].websites.splice(item_index,1);
-    }
+    };
 
     $scope.transform = function() {
         var sites = {};
@@ -46,14 +46,16 @@ function OptionCtrl($scope) {
         for(var i=0; i < $scope.groups.length; i++) {
             var added_group = false;
             for(var j=0; j < $scope.groups[i].websites.length; j++) {
-                if($scope.groups[i].websites[j].shortcut.trim() != ""
-                   && $scope.groups[i].websites[j].url.trim() != "") {
+                if($scope.groups[i].websites[j].shortcut.trim() !== "" && $scope.groups[i].websites[j].url.trim() !== "") {
                     var uri = URI($scope.groups[i].websites[j].url.trim());
                     var uri_str = "";
                     if (uri) {
                         //clean up the URL - we just store the protocol + host
                         //no trailing slash, no querystring
                         uri_str = uri.protocol() + "://" + uri.hostname();
+                        if (uri.port()) {
+                          uri_str += ":" + uri.port();
+                        }
                         $scope.groups[i].websites[j].url = uri_str;
                         sites[$scope.groups[i].websites[j].url] = i;
                         if (!added_group) {
@@ -63,8 +65,7 @@ function OptionCtrl($scope) {
                         }
                         
                         if(added_group) {
-                            groups[groups.length - 1][$scope.groups[i].websites[j].shortcut]
-                                = $scope.groups[i].websites[j].url;
+                          groups[groups.length - 1][$scope.groups[i].websites[j].shortcut] = $scope.groups[i].websites[j].url;
                         }
                     }
                 }
@@ -73,7 +74,7 @@ function OptionCtrl($scope) {
 
         return { sites: sites, groups: groups };
 
-    }
+    };
 
     $scope.save = function() {
         var settings = $scope.transform();
@@ -85,7 +86,7 @@ function OptionCtrl($scope) {
         chrome.extension.getBackgroundPage().loadSettings();
         alert("Settings saved!");
         window.close();
-    }
+    };
 }
 
 function get_groups() {
@@ -115,7 +116,7 @@ function get_groups() {
         }
     }
     
-    if (groups.length == 0) {
+    if (groups.length === 0) {
         groups.push(element);
     }
     
