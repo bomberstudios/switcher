@@ -1,6 +1,6 @@
 {
   "name": "Site Switcher",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "manifest_version": 2,
   "description": "Switch between dev/test/production boxes with a keystroke",
   "icons": {

@@ -29,21 +29,11 @@
       button {
         font-size: 1em;
         padding: 0.5em;
-/*        padding:5px;*/
-/*        cursor:pointer;*/
-      }
-      input[type='text'].url {
-/*        width:200px;*/
-      }
-      label {
-/*        font-size:10pt;*/
-/*        cursor:pointer;*/
       }
     </style>
   </head>
   <body>
     <h1>Website Groups</h1>
-    
     <div ng-controller="OptionCtrl">
       <ul ng-repeat="group in groups track by $index">
         <input type="checkbox" ng-model="group.params" id="chk_{{$index}}"><label for="chk_{{$index}}">Full URL</label>
